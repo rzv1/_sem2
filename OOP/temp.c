@@ -1,4 +1,5 @@
-﻿#include <stdio.h>
+﻿#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -10,13 +11,15 @@ typedef struct Node {
 // Funcție pentru a crea un nou nod
 Node* create_node(const char* str) {
     Node* new_node = malloc(sizeof(Node));
-    if (!new_node) {
+    if (new_node == NULL) {
 		printf("malloc error\n");
         return 1;
     }
 	char* new_str = malloc(strlen(str) + 1);
-    if (new_str == NULL)
+    if (new_str == NULL) {
+        printf("malloc error\n");
         return 1;
+    }
 	strcpy(new_str, str);
     new_node->data = new_str;
     new_node->next = NULL;
