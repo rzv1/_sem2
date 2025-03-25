@@ -15,9 +15,9 @@ typedef struct Car {
 Car create_car(const char* license, const char* model, const char* category);
 
 /*
-* Valideaza o masina
+* Valideaza categoria masinii
 */
-//bool validate_car(Car* car);
+bool validate_category(const char* category);
 
 /*
 * Destructor pentru entitatea masina

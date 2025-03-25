@@ -36,6 +36,11 @@ void repo_add_car(Repo* repo, Car* car);
 Car* find_by_id(Repo* repo, int id);	
 
 /*
+* Gaseste o masina dupa index
+*/
+Car* find_by_index(Repo* repo, int index);
+
+/*
 * Actualizeaza numarul de inmatriculare al unei masini
 */
 bool update_license(Repo* repo, int id, const char* license);

@@ -37,6 +37,26 @@ Repo* service_filter_by_model(Repo* repo, const char* model);
 Repo* service_filter_by_category(Repo* repo, const char* category);
 
 /*
-* Service pentru sortare dupa model
+* Service pentru sortare crescatoare dupa model
 */
-Repo* service_sort_by_model(Repo* repo);
+bool sort_asc_by_category(Car* car1, Car* car2);
+
+/*
+* Service pentru sortare descrescatoare dupa model
+*/
+bool sort_desc_by_category(Car* car1, Car* car2);
+
+/*
+* Service pentru sortare crescatoare dupa model
+*/
+bool sort_asc_by_model(Car* car1, Car* car2);
+
+/*
+* Service pentru sortare descrescatoare dupa model
+*/
+bool sort_desc_by_model(Car* car1, Car* car2);
+
+/*
+* Service pentru sortare dupa categorie
+*/
+Repo* service_sort(Repo* repo, bool(*sort)(Car* car1, Car* car2));

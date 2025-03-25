@@ -5,18 +5,13 @@
 
 Repo* create_repo() {
 	Repo* repo = malloc(sizeof(Repo));
-	if (repo == NULL) {
-		printf("malloc error\n");
-		exit(EXIT_FAILURE);
+	if (repo != NULL) {
+		repo->size = 0;
+		repo->next_id = 1;
 	}
-	repo->size = 0;
-	repo->next_id = 1;
 	return repo;
 }
 
-/*
-* Adauga o masina in repository, creand un deep copy la Car, pentru a evita pointeri partajati.
-*/
 void repo_add_car(Repo* repo, Car* car) {
 	car->ID = repo->next_id++;
 	repo->car[repo->size++] = *car;
@@ -40,6 +35,13 @@ Car* find_by_id(Repo* repo, int id) {
 		}
 	}
 	return NULL;
+}
+
+Car* find_by_index(Repo* repo, int index) {
+	if (index < 0 || index >= get_size(repo)) {
+		return NULL;
+	}
+	return &repo->car[index];
 }
 
 bool update_license(Repo* repo, int id, const char* license) {

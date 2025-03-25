@@ -1,4 +1,5 @@
 #include "test.h"
+#include "ui.h"
 
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRTDBG_MAP_ALLOC
@@ -8,6 +9,7 @@
 
 int main() {
 	run_tests();
+	//run();
 
 	if (_CrtDumpMemoryLeaks() == 1)
 		printf("Memory leak");
