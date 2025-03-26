@@ -9,14 +9,17 @@
 
 Car create_car(const char* license, const char* model, const char* category) {
 	/*
-	Functie care creeaza si returneaza o masina
+	Functie care creeaza o masina
 
 	license: numarul de inmatriculare al masinii
 	model: modelul masinii
 	category: categoria masinii
 
-	return: o masina
-	*/
+	preconditii: license, model, category - sa fie siruri de caractere nevide
+	 category - sa fie unul dintre "mini", "suv", "sport"
+
+	 return: masina creata
+	 */
 	Car car;
 	car.ID = 0;
 	car.is_rented = false;
@@ -41,8 +44,8 @@ bool validate_category(const char* category) {
 
 	category: categoria masinii
 
-	return: true, daca categoria este valida, false in caz contrar
-	*/
+	return: true, daca categoria este una valida, false in caz contrar
+	 */
 	char* copy = malloc(strlen(category) + (size_t)1);
 	if (copy != NULL) {
 		strcpy(copy, category);
@@ -62,7 +65,7 @@ void destroy_car(Car* car) {
 	/*
 	Functie care distruge o masina
 
-	car: masina care va fi distrusa
+	car: masina care urmeaza a fi distrusa
 	*/
 	free(car->license);
 	free(car->model);
@@ -129,7 +132,7 @@ void set_license(Car* car, const char* license) {
 	Functie care seteaza numarul de inmatriculare al unei masini
 
 	car: masina pentru care se seteaza numarul de inmatriculare
-	license: numarul de inmatriculare
+	license: numarul de inmatriculare care urmeaza a fi setat
 	*/
 	free(car->license);
 	car->license = malloc(strlen(license) + (size_t)1);
@@ -143,7 +146,7 @@ void set_model(Car* car, const char* model) {
 	Functie care seteaza modelul unei masini
 
 	car: masina pentru care se seteaza modelul
-	model: modelul masinii
+	model: modelul care urmeaza a fi setat
 	*/
 	free(car->model);
 	car->model = malloc(strlen(model) + (size_t)1);
@@ -157,7 +160,7 @@ void set_category(Car* car, const char* category) {
 	Functie care seteaza categoria unei masini
 
 	car: masina pentru care se seteaza categoria
-	category: categoria masinii
+	category: categoria care urmeaza a fi setata
 	*/
 	free(car->category);
 	car->category = malloc(strlen(category) + (size_t)1);
@@ -171,7 +174,7 @@ void set_is_rented(Car* car, bool is_rented) {
 	Functie care seteaza starea de inchiriere a unei masini
 
 	car: masina pentru care se seteaza starea de inchiriere
-	is_rented: starea de inchiriere
+	is_rented: starea de inchiriere care urmeaza a fi setata
 	*/
 	car->is_rented = is_rented;
 }

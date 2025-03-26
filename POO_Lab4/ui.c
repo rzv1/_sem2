@@ -7,9 +7,6 @@
 
 
 void show_menu() {
-	/*
-	Functie care afiseaza meniul principal
-	*/
 	printf("\n1. Adauga masina\n");
 	printf("2. Actualizeaza masina\n");
 	printf("3. Inchiriaza masina\n");
@@ -21,9 +18,6 @@ void show_menu() {
 }
 
 void show_update_menu() {
-	/*
-	Functie care afiseaza meniul de actualizare
-	*/
 	printf("\n1. Actualizeaza numar de inmatriculare\n");
 	printf("2. Actualizeaza model\n");
 	printf("3. Actualizeaza categorie\n");
@@ -31,64 +25,46 @@ void show_update_menu() {
 }
 
 void show_filter_menu() {
-	/*
-	Functie care afiseaza meniul de filtrare
-	*/
 	printf("\n1. Filtrare dupa model\n");
 	printf("2. Filtrare dupa categorie\n");
 	printf("3. Inapoi\n");
 }
 
 void show_sort_menu() {
-	/*
-	Functie care afiseaza meniul de sortare
-	*/
 	printf("\n1. Sortare dupa model\n");
 	printf("2. Sortare dupa categorie\n");
 	printf("3. Inapoi\n");
 }
 
 void show_sort_type_menu() {
-	/*
-	Functie care afiseaza meniul de sortare
-	*/
 	printf("\n1. Sortare crescatoare\n");
 	printf("2. Sortare descrescatoare\n");
 }
 
 void show_cars(Repo* repo) {
-	/*
-	Functie care afiseaza masinile
-	*/
 	if (get_size(repo) == 0) {
 		printf("Nu exista masini!\n");
 		return;
 	}
 	else for (int i = 0; i < get_size(repo); i++) {
-		Car* car = &repo->car[i];
-		printf("ID: %d. License: %s Model: %s Type: %s %s", 
-			get_id(car), 
-			get_license(car), 
-			get_model(car), 
+		Car* car = find_by_index(repo, i);
+		printf("ID: %d. License: %s Model: %s Type: %s %s",
+			get_id(car),
+			get_license(car),
+			get_model(car),
 			get_category(car),
 			get_is_rented(car) ? "| Inchiriata\n" : "\n");
 	}
 }
 
 int verify_buffer() {
-	/*
-	Functie care curata bufferul
-	*/
 	int chars = 0;
 	while (getchar() != '\n')
 		chars++;
 	return chars;
 }
 
-bool verify_lenght(){
-	/*
-	Functie care verifica daca sirul introdus depaseste limita maxima de 8 caractere
-	*/
+bool verify_lenght() {
 	int c = getchar();
 	if (c != '\n') {
 		printf("Sirul introdus depaseste limita maxima de 8 caractere.\n");
@@ -100,9 +76,6 @@ bool verify_lenght(){
 }
 
 bool input_int(int* number) {
-	/*
-	Functie care citeste un numar
-	*/
 	(void)scanf("%d", number);
 	if (verify_buffer() > 0) {
 		printf("Format input incorect!\n");
@@ -111,24 +84,21 @@ bool input_int(int* number) {
 	return true;
 }
 
-void ui_add_car(Repo* repo){
-	/*
-	Functie care afiseaza meniul de adaugare a unei masini
-	*/
+void ui_add_car(Repo* repo) {
 	char license[9], model[9], category[9];
 	printf("Numar de inmatriculare: ");
 	(void)scanf("%8s", license);
-	if(verify_lenght() == false)
+	if (verify_lenght() == false)
 		return;
 
 	printf("Model: ");
 	(void)scanf("%8s", model);
-	if(verify_lenght() == false)
+	if (verify_lenght() == false)
 		return;
 
 	printf("Categorie (mini, suv, sport): ");
 	(void)scanf("%8s", category);
-	if(verify_lenght() == false)
+	if (verify_lenght() == false)
 		return;
 
 	bool success = service_add_car(repo, license, model, category);
@@ -141,9 +111,6 @@ void ui_add_car(Repo* repo){
 }
 
 void ui_update_license(Repo* repo) {
-	/*
-	Functie care afiseaza meniul de actualizare a numarului de inmatriculare
-	*/
 	show_cars(repo);
 	printf("\nID: ");
 	int id = 0;
@@ -153,7 +120,7 @@ void ui_update_license(Repo* repo) {
 	char license[9];
 	printf("Numar de inmatriculare: ");
 	(void)scanf("%8s", license);
-	if(verify_lenght() == false)
+	if (verify_lenght() == false)
 		return;
 
 	bool success = service_update_license(repo, id, license);
@@ -166,9 +133,6 @@ void ui_update_license(Repo* repo) {
 }
 
 void ui_update_model(Repo* repo) {
-	/*
-	Functie care afiseaza meniul de actualizare a modelului
-	*/
 	show_cars(repo);
 	printf("\nID: ");
 	int id = 0;
@@ -178,7 +142,7 @@ void ui_update_model(Repo* repo) {
 	char model[9];
 	printf("Model: ");
 	(void)scanf("%8s", model);
-	if(verify_lenght() == false)
+	if (verify_lenght() == false)
 		return;
 
 	bool success = service_update_model(repo, id, model);
@@ -191,9 +155,6 @@ void ui_update_model(Repo* repo) {
 }
 
 void ui_update_category(Repo* repo) {
-	/*
-	Functie care afiseaza meniul de actualizare a categoriei
-	*/
 	show_cars(repo);
 	printf("\nID: ");
 	int id = 0;
@@ -216,9 +177,6 @@ void ui_update_category(Repo* repo) {
 }
 
 void ui_rent_car(Repo* repo) {
-	/*
-	Functie care afiseaza meniul de inchiriere a unei masini
-	*/
 	show_cars(repo);
 	printf("\nID: ");
 	int id = 0;
@@ -234,9 +192,6 @@ void ui_rent_car(Repo* repo) {
 }
 
 void ui_return_car(Repo* repo) {
-	/*
-	Functie care afiseaza meniul de returnare a unei masini
-	*/
 	show_cars(repo);
 	printf("\nID: ");
 	int id = 0;
@@ -252,71 +207,56 @@ void ui_return_car(Repo* repo) {
 }
 
 void ui_filter_by_model(Repo* repo) {
-	/*
-	Functie care afiseaza meniul de filtrare a masinilor dupa model
-	*/
 	char model[9];
 	printf("Model: ");
 	(void)scanf("%8s", model);
 	verify_lenght();
 	Repo* filtered = service_filter_by_model(repo, model);
 	show_cars(filtered);
+	free(filtered->cars);
 	free(filtered);
 }
 
 void ui_filter_by_category(Repo* repo) {
-	/*
-	Functie care afiseaza meniul de filtrare a masinilor dupa categorie
-	*/
 	char category[9];
 	printf("Categorie: ");
 	(void)scanf("%8s", category);
 	verify_lenght();
 	Repo* filtered = service_filter_by_category(repo, category);
 	show_cars(filtered);
+	free(filtered->cars);
 	free(filtered);
 }
 
 void ui_sort_asc_by_model(Repo* repo) {
-	/*
-	Functie care afiseaza meniul de sortare a masinilor crescator dupa model
-	*/
 	Repo* sorted = service_sort(repo, sort_asc_by_model);
 	show_cars(sorted);
+	free(sorted->cars);
 	free(sorted);
 }
 
 void ui_sort_desc_by_model(Repo* repo) {
-	/*
-	Functie care afiseaza meniul de sortare a masinilor descrescator dupa model
-	*/
 	Repo* sorted = service_sort(repo, sort_desc_by_model);
 	show_cars(sorted);
+	free(sorted->cars);
 	free(sorted);
 }
 
 void ui_sort_asc_by_category(Repo* repo) {
-	/*
-	Functie care afiseaza meniul de sortare a masinilor crescator dupa categorie
-	*/
 	Repo* sorted = service_sort(repo, sort_asc_by_category);
 	show_cars(sorted);
+	free(sorted->cars);
 	free(sorted);
 }
 
 void ui_sort_desc_by_category(Repo* repo) {
-	/*
-	Functie care afiseaza meniul de sortare a masinilor descrescator dupa categorie
-	*/
 	Repo* sorted = service_sort(repo, sort_desc_by_category);
 	show_cars(sorted);
+	free(sorted->cars);
 	free(sorted);
 }
 
 void run() {
-	/*
-	Functie care ruleaza aplicatia
-	*/
 	Repo* repo = create_repo();
 	int option;
 	while (1) {
@@ -326,12 +266,12 @@ void run() {
 			continue;
 
 		switch (option) {
-		//Adauga masina
+			//Adauga masina
 		case 1:
 			ui_add_car(repo);
 			break;
-		//Actualizeaza masina
-		case 2: 
+			//Actualizeaza masina
+		case 2:
 			while (1) {
 				show_update_menu();
 				printf("Optiune: ");
@@ -354,20 +294,20 @@ void run() {
 				}
 			}
 			break;
-		//Inchiriaza masina
-		case 3: 
+			//Inchiriaza masina
+		case 3:
 			ui_rent_car(repo);
 			break;
-		//Returneaza masina
-		case 4: 
+			//Returneaza masina
+		case 4:
 			ui_return_car(repo);
 			break;
-		//Afiseaza masini
-		case 5: 
+			//Afiseaza masini
+		case 5:
 			show_cars(repo);
 			break;
-		//Filtrare masini
-		case 6: 
+			//Filtrare masini
+		case 6:
 			while (1) {
 				show_filter_menu();
 				printf("Optiune: ");
@@ -388,8 +328,8 @@ void run() {
 				}
 			}
 			break;
-		//Sortare masini
-		case 7: 
+			//Sortare masini
+		case 7:
 			while (1) {
 				show_sort_menu();
 				printf("Optiune: ");
@@ -399,8 +339,8 @@ void run() {
 					break;
 
 				switch (option) {
-				//Sortare masini dupa model
-				case 1: 
+					//Sortare masini dupa model
+				case 1:
 					while (1) {
 						show_sort_type_menu();
 						printf("Optiune: ");
@@ -420,8 +360,8 @@ void run() {
 						break;
 					}
 					break;
-				//Sortare masini dupa categorie
-				case 2: 
+					//Sortare masini dupa categorie
+				case 2:
 					while (1) {
 						show_sort_type_menu();
 						printf("Optiune: ");
@@ -445,9 +385,9 @@ void run() {
 					break;
 				default:
 					printf("Optiune invalida!\n");
-			}
-			break;
-		//Exit
+				}
+				break;
+				//Exit
 		case 8: {
 			destroy_repo(repo);
 			return;
@@ -455,7 +395,7 @@ void run() {
 		default:
 			printf("Optiune invalida!\n");
 			break;
-		}
+			}
 		}
 	}
 }
