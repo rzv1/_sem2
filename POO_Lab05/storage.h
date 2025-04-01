@@ -41,7 +41,7 @@ Lista* copiaza_lista(Lista* lista, void* (*copy_elem)(void*));
 void realocare_memorie(Lista* lista);
 
 // functie care adauga un element in lista
-//void adauga(Lista* lista, void* elem);
+void adauga_element(Lista* lista, void* elem);
 
 // functie care adauga un participant in lista de stocare
 void adauga_participant(Lista* lista, int* user_id, Participant* participant);
@@ -58,6 +58,10 @@ void actualizeaza_scor_participant(Lista* lista, int user_id, int scor);
 // functie care sterge un participant
 void sterge_participant(Lista* lista, int user_id);
 
-void distruge_elem_participant(void* participant);
+void distruge_elem_participant(Participant* participant);
+
+void distruge_elem_lista(Lista* lista);
+
+Participant* copiaza_participant(Participant* participant);
 
 #endif STORAGE_H_

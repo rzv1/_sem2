@@ -7,6 +7,7 @@
 #include "service.h"
 #include "participant.h"
 #include "storage.h"
+#include "user_interface.h"
 
 bool adauga(Lista* lista, int* user_id, char* nume, char* prenume, int scor) {
 	/*
@@ -161,9 +162,7 @@ Lista* filtrare_participanti_dupa_litera(Lista* lista, char litera) {
 		}
 
 		if (nume != NULL && nume[0] == litera)
-			adauga_participant(&lista_participanti_filtrati, &user_id_filtrat, participant);
-		else
-			distruge_participant(&participant);
+			adauga_participant(lista_participanti_filtrati, &user_id_filtrat, participant);
 
 		free(nume);
 	}
@@ -242,19 +241,21 @@ Lista* sortare_participanti(Lista* lista, int(*cmp_func)(Participant* a, Partici
 	int user_id = 1;
 	for (int i = 0; i < get_lungime(lista); i++)
 		adauga_participant(participanti_sortati, &user_id, get_element_by_index(lista, i));
+	//print_all_participants(participanti_sortati);
 
 	for (int i = 0; i < get_lungime(participanti_sortati) - 1; i++)
 		for (int j = i + 1; j < get_lungime(participanti_sortati); j++) {
 			Participant* participant_i = get_element_by_index(participanti_sortati, i);
 			Participant* participant_j = get_element_by_index(participanti_sortati, j);
 			if (!cmp_func(participant_i, participant_j)) {
-				Participant* temp = participant_i;
-				set_elem_on_index(&participanti_sortati, participant_j, i);
-				set_elem_on_index(&participanti_sortati, temp, j);
+				Participant* temp = copiaza_participant(participant_i);
+				set_elem_on_index(participanti_sortati, participant_j, i);
+				set_elem_on_index(participanti_sortati, temp, j);
 			}
-			distruge_participant(participant_i);
-			distruge_participant(participant_j);
+			//distruge_participant(participant_i);
+			//distruge_participant(participant_j);
+			print_all_participants(participanti_sortati);
+			printf("\n");
 		}
-
 	return participanti_sortati;
 }

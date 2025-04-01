@@ -86,6 +86,7 @@ void* get_element_by_index(Lista* lista, int index) {
 	*/
 	if (index >= 0 && index < get_lungime(lista))
 		return lista->elements[index];
+	return NULL;
 }
 
 void set_elem_on_index(Lista* lista, void* elem, int index) {
@@ -174,25 +175,26 @@ void adauga_participant(Lista* lista, int* user_id, Participant* participant) {
 	(*user_id)++;
 }
 
-//void adauga(Lista* lista, void* elem) {
-//	/*
-//	functie care adauga un element in lista de stocare
-//
-//	lista: structura in care se stocheaza participantii
-//	user_id: identificatorul unic al participantului care urmeaza sa se adauge
-//	participant: o structura de participant cu toate atributele corespunzatoare
-//
-//	preconditii: lista - sa existe
-//				 user_id -  valid
-//				 participant - valid
-//	postconditii: lista' = lista + participant
-//				  user_id' = user_id + 1s
-//	*/
-//	if (get_lungime(lista) + 1 > get_max_lungime(lista))
-//		realocare_memorie(lista);
-//
-//	lista->elements[lista->lungime++] = elem;
-//}
+void adauga_element(Lista* lista, void* elem) {
+	/*
+	functie care adauga un element in lista de stocare
+
+	lista: structura in care se stocheaza participantii
+	user_id: identificatorul unic al participantului care urmeaza sa se adauge
+	participant: o structura de participant cu toate atributele corespunzatoare
+
+	preconditii: lista - sa existe
+				 user_id -  valid
+				 participant - valid
+	postconditii: lista' = lista + participant
+				  user_id' = user_id + 1s
+	*/
+	if (get_lungime(lista) + 1 > get_max_lungime(lista))
+		realocare_memorie(lista);
+
+	lista->elements[lista->lungime] = elem;
+	set_lungime(lista, get_lungime(lista) + 1);
+}
 
 void actualizeaza_nume_participant(Lista* lista, int user_id, char* nume) {
 	/*
@@ -308,14 +310,28 @@ Lista* copiaza_lista(Lista* lista, void* (*copy_elem)(void*)) {
 	Lista* lista_noua = creeaza_lista();
 	for (int i = 0; i < get_lungime(lista); i++) {
 		void* copie_element = copy_elem(lista->elements[i]);
-		adauga(lista_noua, copie_element);
+		adauga_element(lista_noua, copie_element);
 	}
 	return lista_noua;
 }
 
-void distruge_elem_participant(void* participant) {
+void distruge_elem_participant(Participant* participant) {
 	/*
 	functie care dealoca memoria alocata pentru un participant
 	*/
-	distruge_participant((Participant*)participant);
+	distruge_participant(participant);
+}
+
+void distruge_elem_lista(Lista* lista) {
+	/*
+functie care dealoca memoria alocata pentru o lista
+*/
+	distruge_lista(lista, distruge_elem_participant);
+}
+
+Participant* copiaza_participant(Participant* participant) {
+	/*
+	functie care copiaza un participant
+	*/
+	return creeaza_participant(get_id(participant), get_nume(participant), get_prenume(participant), get_scor(participant));
 }
