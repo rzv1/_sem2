@@ -15,8 +15,40 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stiva.cpp">
+    <ClCompile Include="TestScurt.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestExtins.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VectorDinamic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IteratorVectorDinamic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Multime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IteratorVectorDinamic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorDinamic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestExtins.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScurt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Multime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
