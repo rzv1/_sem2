@@ -50,7 +50,7 @@ bool validate_category(const char* category) {
 	if (copy != NULL) {
 		strcpy(copy, category);
 		for (int i = 0; copy[i]; i++) {
-			copy[i] = tolower(copy[i]);
+			copy[i] = (char)tolower(copy[i]);
 		}
 		if (strcmp(copy, "mini") == 0 || strcmp(copy, "suv") == 0 || strcmp(copy, "sport") == 0) {
 			free(copy);

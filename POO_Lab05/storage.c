@@ -293,10 +293,11 @@ void distruge_lista(Lista* lista, void(*free_elem)(void*)) {
 
 	preconditii: lista -  sa existe
 	*/
-
-	for (int i = 0; i < lista->lungime; i++)
-		free_elem(lista->elements[i]);
-
+	if (free_elem != NULL) {
+		for (int i = 0; i < lista->lungime; i++)
+			free_elem(lista->elements[i]);
+	}
+	lista->lungime = 0;
 	free(lista->elements);
 	free(lista);
 }

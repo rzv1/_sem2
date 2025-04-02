@@ -117,16 +117,19 @@ void ui_add_car(Repo* repo){
 	*/
 	char license[9], model[9], category[9];
 	printf("Numar de inmatriculare: ");
+	//fgets(license, 9, stdin);
 	(void)scanf("%8s", license);
 	if(verify_lenght() == false)
 		return;
 
 	printf("Model: ");
+	//fgets(model, 9, stdin);
 	(void)scanf("%8s", model);
 	if(verify_lenght() == false)
 		return;
 
 	printf("Categorie (mini, suv, sport): ");
+	//fgets(category, 9, stdin);
 	(void)scanf("%8s", category);
 	if(verify_lenght() == false)
 		return;
