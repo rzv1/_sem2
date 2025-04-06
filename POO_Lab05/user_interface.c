@@ -123,7 +123,7 @@ void user_interface_adaugare_participant(Lista* lista, Lista* undoList, int* use
 	for (int i = 1; i <= 10; i++) {
 		printf("Problema %d : ", i);
 
-		scanf("%d", &puncte);
+		(void)scanf("%d", &puncte);
 
 		extra_chars = 0;
 		clear_input_buffer(&extra_chars);
@@ -162,7 +162,7 @@ void user_interface_actualizare_participant(Lista* lista, Lista* undoList) {
 
 	int id = 0;
 	printf("\nIntrodu id-ul participantului: ");
-	scanf("%d", &id);
+	(void)scanf("%d", &id);
 
 	int extra_chars = 0;
 	clear_input_buffer(&extra_chars);
@@ -182,7 +182,7 @@ void user_interface_actualizare_participant(Lista* lista, Lista* undoList) {
 	printf("\nIntrodu campul pe care vrei sa il actualizezi: ");
 
 	char option = '0';
-	scanf(" %c", &option);
+	(void)scanf(" %c", &option);
 
 	extra_chars = 0;
 	clear_input_buffer(&extra_chars);
@@ -241,7 +241,7 @@ void user_interface_actualizare_participant(Lista* lista, Lista* undoList) {
 		int scor = 0;
 
 		printf("Introdu noul scor: ");
-		scanf("%d", &scor);
+		(void)scanf("%d", &scor);
 
 		extra_chars = 0;
 		clear_input_buffer(&extra_chars);
@@ -279,7 +279,7 @@ void user_interface_stergere_participant(Lista* lista, Lista* undoList, Lista* s
 
 	int id = 0;
 	printf("\nIntrodu id-ul participantului: ");
-	scanf("%d", &id);
+	(void)scanf("%d", &id);
 
 	int extra_chars = 0;
 	clear_input_buffer(&extra_chars);
@@ -314,7 +314,7 @@ void user_interface_filtrare_participanti(Lista* lista) {
 	printf("Introdu optiunea de filtrare: ");
 
 	char option;
-	scanf(" %c", &option);
+	(void)scanf(" %c", &option);
 
 	int extra_chars = 0;
 	clear_input_buffer(&extra_chars);
@@ -329,7 +329,7 @@ void user_interface_filtrare_participanti(Lista* lista) {
 	case '1': {
 		int scor = 0;
 		printf("Introdu scorul: ");
-		scanf("%d", &scor);
+		(void)scanf("%d", &scor);
 
 		extra_chars = 0;
 		clear_input_buffer(&extra_chars);
@@ -349,7 +349,7 @@ void user_interface_filtrare_participanti(Lista* lista) {
 	case '2': {
 		char litera = 0;
 		printf("Introdu litera: ");
-		scanf(" %c", &litera);
+		(void)scanf(" %c", &litera);
 
 		extra_chars = 0;
 		clear_input_buffer(&extra_chars);
@@ -392,7 +392,7 @@ void user_interface_sortare_participanti(Lista* lista) {
 	printf("Introdu optiunea de sortare: ");
 
 	char option;
-	scanf(" %c", &option);
+	(void)scanf(" %c", &option);
 
 	int extra_chars = 0;
 	clear_input_buffer(&extra_chars);
@@ -411,7 +411,7 @@ void user_interface_sortare_participanti(Lista* lista) {
 		printf("Introdu ordinea de sortare: ");
 
 		option;
-		scanf(" %c", &option);
+		(void)scanf(" %c", &option);
 
 		extra_chars = 0;
 		clear_input_buffer(&extra_chars);
@@ -444,7 +444,7 @@ void user_interface_sortare_participanti(Lista* lista) {
 		printf("Introdu ordinea de sortare: ");
 
 		option;
-		scanf(" %c", &option);
+		(void)scanf(" %c", &option);
 
 		extra_chars = 0;
 		clear_input_buffer(&extra_chars);
@@ -513,7 +513,7 @@ void ruleaza() {
 		int extra_chars = 0;
 
 		printf("Introdu o optiune: ");
-		scanf(" %c", &option);
+		(void)scanf(" %c", &option);
 
 		clear_input_buffer(&extra_chars);
 		if (extra_chars > 0) {

@@ -597,8 +597,8 @@ void test_set_participant_on_index() {
 		get_scor(get_element_by_index(lista, 0))
 	);
 
-	set_elem_on_index(lista, participant_1, 0);
-	set_elem_on_index(lista, temp, 1);
+	set_element_on_index(lista, participant_1, 0);
+	set_element_on_index(lista, temp, 1);
 
 	assert(get_lungime(lista) == 2);
 
@@ -690,32 +690,10 @@ void test_filtrare_participanti_dupa_scor() {
 	Participant* participant_3 = creeaza_participant(user_id, "Ionescu", "George", 45);
 	adauga_participant(lista, &user_id, participant_3);
 
-	Lista* participanti_filtrati = filtrare_participanti_dupa_scor(lista, 60);
+	Lista* participanti_filtrati = filtrare_participanti_dupa_scor(lista, 70);
 
-	assert(get_lungime(participanti_filtrati) == 2);
-
-	participant = get_element_by_index(participanti_filtrati, 0);
-	assert(get_id(participant) == 3);
-	assert(strcmp(get_nume(participant), "Gheorghe") == 0);
-	assert(strcmp(get_prenume(participant), "Andrei") == 0);
-	assert(get_scor(participant) == 50);
-
-	participant = get_element_by_index(participanti_filtrati, 1);
-	assert(get_id(participant) == 4);
-	assert(strcmp(get_nume(participant), "Ionescu") == 0);
-	assert(strcmp(get_prenume(participant), "George") == 0);
-	assert(get_scor(participant) == 45);
-
-	free(participanti_filtrati->elements);
-	free(participanti_filtrati);
-	//distruge_lista(participanti_filtrati, distruge_elem_participant);
-	participanti_filtrati = filtrare_participanti_dupa_scor(lista, 10);
-
-	assert(get_lungime(participanti_filtrati) == 0);
-
-	distruge_lista(participanti_filtrati, distruge_elem_participant);
+	distruge_lista(participanti_filtrati, NULL);
 	distruge_lista(lista, distruge_elem_participant);
-
 }
 
 void test_filtrare_participanti_dupa_litera() {
@@ -738,33 +716,8 @@ void test_filtrare_participanti_dupa_litera() {
 
 	assert(get_lungime(participanti_filtrati) == 2);
 
-	participant = get_element_by_index(participanti_filtrati, 0);
-	assert(get_id(participant) == 1);
-	assert(strcmp(get_nume(participant), "Samoila") == 0);
-	assert(strcmp(get_prenume(participant), "Alexandru") == 0);
-	assert(get_scor(participant) == 80);
-
-	//distruge_participant(participant);
-
-	participant = get_element_by_index(participanti_filtrati, 1);
-	assert(get_id(participant) == 4);
-	assert(strcmp(get_nume(participant), "Sibescu") == 0);
-	assert(strcmp(get_prenume(participant), "George") == 0);
-	assert(get_scor(participant) == 45);
-
-	//distruge_participant(participant);
-	//distruge_lista(participanti_filtrati, distruge_elem_participant);
-	free(participanti_filtrati->elements);
-	free(participanti_filtrati);
-
-	Lista* participanti_filtrati1 = filtrare_participanti_dupa_litera(lista, 'F');
-
-	assert(get_lungime(participanti_filtrati1) == 0);
-
+	distruge_lista(participanti_filtrati, NULL);
 	distruge_lista(lista, distruge_elem_participant);
-	//distruge_lista(participanti_filtrati1, distruge_elem_participant);
-	free(participanti_filtrati1->elements);
-	free(participanti_filtrati1);
 }
 
 void test_cmp_func_nume_crescator() {
@@ -848,6 +801,7 @@ void test_sortare_participanti() {
 	Participant* participant_6 = creeaza_participant(user_id, "Bibescu", "George", 60);
 	adauga_participant(lista, &user_id, participant_6);
 
+	//Sortare crescatoare dupa nume
 	Lista* participanti_sortati = sortare_participanti(lista, cmp_func_nume_crescator);
 
 	assert(get_lungime(participanti_sortati) == 7);
@@ -858,16 +812,11 @@ void test_sortare_participanti() {
 	assert(strcmp(get_prenume(participant), "Mihai") == 0);
 	assert(get_scor(participant) == 90);
 
-	//distruge_participant(participant);
-
 	participant = get_element_by_index(participanti_sortati, 1);
-	printf("%d\n", get_id(participant));
 	assert(get_id(participant) == 7);
 	assert(strcmp(get_nume(participant), "Bibescu") == 0);
 	assert(strcmp(get_prenume(participant), "George") == 0);
 	assert(get_scor(participant) == 60);
-
-	//distruge_participant(participant);
 
 	participant = get_element_by_index(participanti_sortati, 2);
 	assert(get_id(participant) == 3);
@@ -875,15 +824,11 @@ void test_sortare_participanti() {
 	assert(strcmp(get_prenume(participant), "Andrei") == 0);
 	assert(get_scor(participant) == 50);
 
-	//distruge_participant(participant);
-
 	participant = get_element_by_index(participanti_sortati, 3);
 	assert(get_id(participant) == 6);
 	assert(strcmp(get_nume(participant), "Ionescu") == 0);
 	assert(strcmp(get_prenume(participant), "Ion") == 0);
 	assert(get_scor(participant) == 50);
-
-	//distruge_participant(participant);
 
 	participant = get_element_by_index(participanti_sortati, 4);
 	assert(get_id(participant) == 5);
@@ -891,15 +836,11 @@ void test_sortare_participanti() {
 	assert(strcmp(get_prenume(participant), "Luca") == 0);
 	assert(get_scor(participant) == 67);
 
-	//distruge_participant(participant);
-
 	participant = get_element_by_index(participanti_sortati, 5);
 	assert(get_id(participant) == 1);
 	assert(strcmp(get_nume(participant), "Samoila") == 0);
 	assert(strcmp(get_prenume(participant), "Alexandru") == 0);
 	assert(get_scor(participant) == 80);
-
-	//distruge_participant(participant);
 
 	participant = get_element_by_index(participanti_sortati, 6);
 	assert(get_id(participant) == 4);
@@ -907,13 +848,9 @@ void test_sortare_participanti() {
 	assert(strcmp(get_prenume(participant), "George") == 0);
 	assert(get_scor(participant) == 45);
 
-	//distruge_participant(participant);
+	distruge_lista(participanti_sortati, NULL);
 
-	//distruge_lista(participanti_sortati, distruge_elem_participant);
-	free(participanti_sortati->elements);
-	free(participanti_sortati);
-
-
+	//Sortare descrescatoare dupa nume
 	Lista* participanti_sortati1 = sortare_participanti(lista, cmp_func_nume_descrescator);
 
 	assert(get_lungime(participanti_sortati1) == 7);
@@ -924,15 +861,11 @@ void test_sortare_participanti() {
 	assert(strcmp(get_prenume(participant), "George") == 0);
 	assert(get_scor(participant) == 45);
 
-	//distruge_participant(participant);
-
 	participant = get_element_by_index(participanti_sortati1, 1);
 	assert(get_id(participant) == 1);
 	assert(strcmp(get_nume(participant), "Samoila") == 0);
 	assert(strcmp(get_prenume(participant), "Alexandru") == 0);
 	assert(get_scor(participant) == 80);
-
-	//distruge_participant(participant);
 
 	participant = get_element_by_index(participanti_sortati1, 2);
 	assert(get_id(participant) == 5);
@@ -940,15 +873,11 @@ void test_sortare_participanti() {
 	assert(strcmp(get_prenume(participant), "Luca") == 0);
 	assert(get_scor(participant) == 67);
 
-	//distruge_participant(participant);
-
 	participant = get_element_by_index(participanti_sortati1, 3);
 	assert(get_id(participant) == 6);
 	assert(strcmp(get_nume(participant), "Ionescu") == 0);
 	assert(strcmp(get_prenume(participant), "Ion") == 0);
 	assert(get_scor(participant) == 50);
-
-	//distruge_participant(participant);
 
 	participant = get_element_by_index(participanti_sortati1, 4);
 	assert(get_id(participant) == 3);
@@ -956,15 +885,11 @@ void test_sortare_participanti() {
 	assert(strcmp(get_prenume(participant), "Andrei") == 0);
 	assert(get_scor(participant) == 50);
 
-	//distruge_participant(participant);
-
 	participant = get_element_by_index(participanti_sortati1, 5);
 	assert(get_id(participant) == 7);
 	assert(strcmp(get_nume(participant), "Bibescu") == 0);
 	assert(strcmp(get_prenume(participant), "George") == 0);
 	assert(get_scor(participant) == 60);
-
-	//distruge_participant(participant);
 
 	participant = get_element_by_index(participanti_sortati1, 6);
 	assert(get_id(participant) == 2);
@@ -972,38 +897,30 @@ void test_sortare_participanti() {
 	assert(strcmp(get_prenume(participant), "Mihai") == 0);
 	assert(get_scor(participant) == 90);
 
-	//distruge_participant(participant);
+	distruge_lista(participanti_sortati1, NULL);
 
-	free(participanti_sortati1->elements);
-	free(participanti_sortati1);
-
-	Lista * participanti_sortati2 = sortare_participanti(lista, cmp_func_scor_descrescator);
+	//Sortare crescatoare dupa scor
+	Lista* participanti_sortati2 = sortare_participanti(lista, cmp_func_scor_crescator);
 
 	assert(get_lungime(participanti_sortati2) == 7);
 
 	participant = get_element_by_index(participanti_sortati2, 0);
-	assert(get_id(participant) == 2);
-	assert(strcmp(get_nume(participant), "Alexandrescu") == 0);
-	assert(strcmp(get_prenume(participant), "Mihai") == 0);
-	assert(get_scor(participant) == 90);
-
-	//distruge_participant(participant);
+	assert(get_id(participant) == 4);
+	assert(strcmp(get_nume(participant), "Sibescu") == 0);
+	assert(strcmp(get_prenume(participant), "George") == 0);
+	assert(get_scor(participant) == 45);
 
 	participant = get_element_by_index(participanti_sortati2, 1);
-	assert(get_id(participant) == 1);
-	assert(strcmp(get_nume(participant), "Samoila") == 0);
-	assert(strcmp(get_prenume(participant), "Alexandru") == 0);
-	assert(get_scor(participant) == 80);
-
-	//distruge_participant(participant);
+	assert(get_id(participant) == 3);
+	assert(strcmp(get_nume(participant), "Gheorghe") == 0);
+	assert(strcmp(get_prenume(participant), "Andrei") == 0);
+	assert(get_scor(participant) == 50);
 
 	participant = get_element_by_index(participanti_sortati2, 2);
-	assert(get_id(participant) == 5);
-	assert(strcmp(get_nume(participant), "Rosu") == 0);
-	assert(strcmp(get_prenume(participant), "Luca") == 0);
-	assert(get_scor(participant) == 67);
-
-	//distruge_participant(participant);
+	assert(get_id(participant) == 6);
+	assert(strcmp(get_nume(participant), "Ionescu") == 0);
+	assert(strcmp(get_prenume(participant), "Ion") == 0);
+	assert(get_scor(participant) == 50);
 
 	participant = get_element_by_index(participanti_sortati2, 3);
 	assert(get_id(participant) == 7);
@@ -1011,34 +928,74 @@ void test_sortare_participanti() {
 	assert(strcmp(get_prenume(participant), "George") == 0);
 	assert(get_scor(participant) == 60);
 
-	//distruge_participant(participant);
-
 	participant = get_element_by_index(participanti_sortati2, 4);
+	assert(get_id(participant) == 5);
+	assert(strcmp(get_nume(participant), "Rosu") == 0);
+	assert(strcmp(get_prenume(participant), "Luca") == 0);
+	assert(get_scor(participant) == 67);
+
+	participant = get_element_by_index(participanti_sortati2, 5);
+	assert(get_id(participant) == 1);
+	assert(strcmp(get_nume(participant), "Samoila") == 0);
+	assert(strcmp(get_prenume(participant), "Alexandru") == 0);
+	assert(get_scor(participant) == 80);
+
+	participant = get_element_by_index(participanti_sortati2, 6);
+	assert(get_id(participant) == 2);
+	assert(strcmp(get_nume(participant), "Alexandrescu") == 0);
+	assert(strcmp(get_prenume(participant), "Mihai") == 0);
+	assert(get_scor(participant) == 90);
+
+	distruge_lista(participanti_sortati2, NULL);
+
+	//Sortare descrescatoare dupa scor
+	Lista* participanti_sortati3 = sortare_participanti(lista, cmp_func_scor_descrescator);
+
+	assert(get_lungime(participanti_sortati3) == 7);
+
+	participant = get_element_by_index(participanti_sortati3, 0);
+	assert(get_id(participant) == 2);
+	assert(strcmp(get_nume(participant), "Alexandrescu") == 0);
+	assert(strcmp(get_prenume(participant), "Mihai") == 0);
+	assert(get_scor(participant) == 90);
+
+	participant = get_element_by_index(participanti_sortati3, 1);
+	assert(get_id(participant) == 1);
+	assert(strcmp(get_nume(participant), "Samoila") == 0);
+	assert(strcmp(get_prenume(participant), "Alexandru") == 0);
+	assert(get_scor(participant) == 80);
+
+	participant = get_element_by_index(participanti_sortati3, 2);
+	assert(get_id(participant) == 5);
+	assert(strcmp(get_nume(participant), "Rosu") == 0);
+	assert(strcmp(get_prenume(participant), "Luca") == 0);
+	assert(get_scor(participant) == 67);
+
+	participant = get_element_by_index(participanti_sortati3, 3);
+	assert(get_id(participant) == 7);
+	assert(strcmp(get_nume(participant), "Bibescu") == 0);
+	assert(strcmp(get_prenume(participant), "George") == 0);
+	assert(get_scor(participant) == 60);
+
+	participant = get_element_by_index(participanti_sortati3, 4);
 	assert(get_id(participant) == 6);
 	assert(strcmp(get_nume(participant), "Ionescu") == 0);
 	assert(strcmp(get_prenume(participant), "Ion") == 0);
 	assert(get_scor(participant) == 50);
 
-	//distruge_participant(participant);
-
-	participant = get_element_by_index(participanti_sortati2, 5);
+	participant = get_element_by_index(participanti_sortati3, 5);
 	assert(get_id(participant) == 3);
 	assert(strcmp(get_nume(participant), "Gheorghe") == 0);
 	assert(strcmp(get_prenume(participant), "Andrei") == 0);
 	assert(get_scor(participant) == 50);
 
-	//distruge_participant(&participant);
-
-	participant = get_element_by_index(participanti_sortati2, 6);
+	participant = get_element_by_index(participanti_sortati3, 6);
 	assert(get_id(participant) == 4);
 	assert(strcmp(get_nume(participant), "Sibescu") == 0);
 	assert(strcmp(get_prenume(participant), "George") == 0);
 	assert(get_scor(participant) == 45);
 
-	//distruge_participant(participant);
-
-	free(participanti_sortati2->elements);
-	free(participanti_sortati2);
+	distruge_lista(participanti_sortati3, NULL);
 	distruge_lista(lista, distruge_elem_participant);
 
 
@@ -1101,17 +1058,18 @@ void test_realocare_memorie() {
 	assert(get_scor(participant) == 45);
 
 	//distruge_participant(participant);
+	//distruge_lista(participanti_filtrati, distruge_elem_participant);
+	//free(participanti_filtrati->elements);
+	//free(participanti_filtrati);
 
-	participant = get_element_by_index(lista, 4);
-	assert(get_id(participant) == 5);
-	assert(strcmp(get_nume(participant), "Rosu") == 0);
-	assert(strcmp(get_prenume(participant), "Luca") == 0);
-	assert(get_scor(participant) == 67);
+	Lista* participanti_filtrati1 = filtrare_participanti_dupa_litera(lista, 'F');
 
-	//distruge_participant(participant);
+	assert(get_lungime(participanti_filtrati1) == 0);
 
 	distruge_lista(lista, distruge_elem_participant);
-
+	//distruge_lista(participanti_filtrati1, distruge_elem_participant);
+	free(participanti_filtrati1->elements);
+	free(participanti_filtrati1);
 }
 
 void test_distruge_lista() {
@@ -1130,23 +1088,101 @@ void test_distruge_lista() {
 
 }
 
-void testListeDeListe() {
+static void test_set_max_lungime() {
 	Lista* lista = creeaza_lista();
-	int user_id = 1;	
-	adauga_participant(lista, &user_id, creeaza_participant(user_id, "Samoila", "Alexandru", 80));
-	adauga_participant(lista, &user_id, creeaza_participant(user_id, "Alexandrescu", "Mihai", 90));
-	assert(get_lungime(lista) == 2);
-	Lista* undoList = creeaza_lista();
-	Lista* lista1 = creeaza_lista();
-	assert(get_lungime(undoList) == 0);
-	adauga_element(undoList, lista);
-	assert(get_lungime(undoList) == 1);
-	adauga_element(undoList, lista1);
-	assert(get_lungime(undoList) == 2);
-	distruge_lista(undoList, distruge_elem_lista);
+	assert(get_lungime(lista) == 0);
+	assert(get_max_lungime(lista) == 50);
+	set_max_lungime(lista, 100);
+	assert(get_max_lungime(lista) == 100);
+	distruge_lista(lista, distruge_elem_participant);
+}
+
+static void test_get_element_by_index() {
+	Lista* lista = creeaza_lista();
+	assert(get_lungime(lista) == 0);
+	assert(get_max_lungime(lista) == 50);
+	int user_id = 1;
+	Participant* participant = creeaza_participant(user_id, "Samoila", "Alexandru", 80);
+	adauga_participant(lista, &user_id, participant);
+	Participant* participant_1 = get_element_by_index(lista, 0);
+	assert(get_id(participant_1) == 1);
+	assert(strcmp(get_nume(participant_1), "Samoila") == 0);
+	assert(strcmp(get_prenume(participant_1), "Alexandru") == 0);
+	assert(get_scor(participant_1) == 80);
+	Participant* participant_2 = get_element_by_index(lista, 1);
+	assert(participant_2 == NULL);
+	distruge_lista(lista, distruge_elem_participant);
+}
+
+static void test_set_element_on_index() {
+	Lista* lista = creeaza_lista();
+	assert(get_lungime(lista) == 0);
+	assert(get_max_lungime(lista) == 50);
+	int user_id = 1;
+	Participant* participant = creeaza_participant(user_id, "Samoila", "Alexandru", 80);
+	adauga_participant(lista, &user_id, participant);
+	Participant* participant_1 = creeaza_participant(user_id, "Alexandrescu", "Mihai", 90);
+	set_element_on_index(lista, participant_1, 0);
+	Participant* participant_2 = get_element_by_index(lista, 0);
+	assert(get_id(participant_2) == 2);
+	assert(strcmp(get_nume(participant_2), "Alexandrescu") == 0);
+	assert(strcmp(get_prenume(participant_2), "Mihai") == 0);
+	assert(get_scor(participant_2) == 90);
+	distruge_lista(lista, distruge_elem_participant);
+	distruge_participant(participant_1);
+}
+
+void test_adauga_element() {
+	Lista* lista = creeaza_lista();
+	assert(get_lungime(lista) == 0);
+	assert(get_max_lungime(lista) == 50);
+	int user_id = 1;
+	Participant* participant = creeaza_participant(user_id, "Samoila", "Alexandru", 80);
+	//set_lungime(lista, 50);
+	adauga_element(lista, participant);
+	Participant* participant_1 = get_element_by_index(lista, 0);
+	assert(get_id(participant_1) == 1);
+	assert(strcmp(get_nume(participant_1), "Samoila") == 0);
+	assert(strcmp(get_prenume(participant_1), "Alexandru") == 0);
+	assert(get_scor(participant_1) == 80);
+	distruge_lista(lista, distruge_elem_participant);
+}
+
+void test_copiaza_lista() {
+	Lista* lista = creeaza_lista();
+	assert(get_lungime(lista) == 0);
+	assert(get_max_lungime(lista) == 50);
+	int user_id = 1;
+	Participant* participant = creeaza_participant(user_id, "Samoila", "Alexandru", 80);
+	adauga_participant(lista, &user_id, participant);
+	Participant* participant_1 = creeaza_participant(user_id, "Alexandrescu", "Mihai", 90);
+	adauga_participant(lista, &user_id, participant_1);
+	Lista* lista_copie = copiaza_lista(lista, copiaza_participant);
+	assert(get_lungime(lista_copie) == 2);
+	assert(get_max_lungime(lista_copie) == 50);
+	distruge_lista(lista, distruge_elem_participant);
+	distruge_lista(lista_copie, distruge_elem_participant);
+}
+
+static void test_cauta_participant_dupa_id() {
+	Lista* lista = creeaza_lista();
+	assert(get_lungime(lista) == 0);
+	assert(get_max_lungime(lista) == 50);
+	int user_id = 1;
+	Participant* participant = creeaza_participant(user_id, "Samoila", "Alexandru", 80);
+	adauga_participant(lista, &user_id, participant);
+	Participant* participant_1 = creeaza_participant(user_id, "Alexandrescu", "Mihai", 90);
+	adauga_participant(lista, &user_id, participant_1);
+	Participant* participant_cautat = cauta_participant_dupa_id(lista, 1);
+	assert(get_id(participant_cautat) == 1);
+	assert(strcmp(get_nume(participant_cautat), "Samoila") == 0);
+	assert(strcmp(get_prenume(participant_cautat), "Alexandru") == 0);
+	assert(get_scor(participant_cautat) == 80);
+	distruge_lista(lista, distruge_elem_participant);
 }
 
 void ruleaza_teste() {
+	//teste domain
 	test_get_id();
 	test_get_nume();
 	test_get_prenume();
@@ -1155,34 +1191,40 @@ void ruleaza_teste() {
 	test_set_nume();
 	test_set_prenume();
 	test_set_scor();
+	test_creeaza_participant();
+	test_valideaza_participant();
+	//teste repo
 	test_set_lungime();
 	test_get_lungime();
 	test_get_max_lungime();
-	test_get_participant();
-	test_creeaza_participant();
-	test_valideaza_participant();
+	test_set_max_lungime();
 	test_creeaza_lista();
-	test_adauga_participant();
+	test_get_participant();
+	test_get_element_by_index();
+	test_set_element_on_index();
 	test_realocare_memorie();
+	test_adauga_participant();
+	test_adauga_element();
+	test_actualizeaza_nume_participant();
+	test_actualizeaza_prenume_participant();
+	test_actualizeaza_scor_participant();
 	test_distruge_lista();
+	test_sterge_participant();
+	test_copiaza_lista();
+	//Service
 	test_adauga();
 	test_actualizeaza_nume();
-	test_actualizeaza_nume_participant();
 	test_actualizeaza_prenume();
-	test_actualizeaza_prenume_participant();
 	test_actualizeaza_scor();
-	test_actualizeaza_scor_participant();
-	test_get_participant_by_index();
-	test_set_participant_on_index();
 	test_sterge();
-	test_sterge_participant();
+	test_cauta_participant_dupa_id();
 	test_filtrare_participanti_dupa_scor();
 	test_filtrare_participanti_dupa_litera();
 	test_cmp_func_nume_crescator();
 	test_cmp_func_nume_descrescator();
 	test_cmp_func_scor_crescator();
 	test_cmp_func_scor_descrescator();
-	//test_sortare_participanti();
-	testListeDeListe();
+	test_sortare_participanti();
+	//testListeDeListe();
 	printf("Toate testele au fost trecute cu succes!\n");
 }

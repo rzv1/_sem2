@@ -89,7 +89,7 @@ void* get_element_by_index(Lista* lista, int index) {
 	return NULL;
 }
 
-void set_elem_on_index(Lista* lista, void* elem, int index) {
+void set_element_on_index(Lista* lista, void* elem, int index) {
 	/*
 	setter pentru un participant dat pe un anumit index intr-o lista cu participanti
 
@@ -295,10 +295,12 @@ void distruge_lista(Lista* lista, void(*free_elem)(void*)) {
 
 	preconditii: lista -  sa existe
 	*/
-
-	for (int i = 0; i < lista->lungime; i++)
-		free_elem(lista->elements[i]);
-
+	if (free_elem != NULL) {
+		for (int i = 0; i < lista->lungime; i++)
+			if(lista->elements[i])
+				free_elem(lista->elements[i]);
+	}
+	lista->lungime = 0;
 	free(lista->elements);
 	free(lista);
 }

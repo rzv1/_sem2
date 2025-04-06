@@ -249,13 +249,12 @@ Lista* sortare_participanti(Lista* lista, int(*cmp_func)(Participant* a, Partici
 			Participant* participant_j = get_element_by_index(participanti_sortati, j);
 			if (!cmp_func(participant_i, participant_j)) {
 				Participant* temp = copiaza_participant(participant_i);
-				set_elem_on_index(participanti_sortati, participant_j, i);
-				set_elem_on_index(participanti_sortati, temp, j);
+				set_element_on_index(participanti_sortati, participant_j, i);
+				set_element_on_index(participanti_sortati, temp, j);
+				distruge_participant(temp);
 			}
 			//distruge_participant(participant_i);
 			//distruge_participant(participant_j);
-			print_all_participants(participanti_sortati);
-			printf("\n");
 		}
 	return participanti_sortati;
 }

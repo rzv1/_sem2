@@ -23,7 +23,7 @@ Participant* get_participant(Lista* lista, int id);
 void* get_element_by_index(Lista* lista, int index);
 
 // setter pentru un participant pe un anumit index in vectorul in care sunt stocati participantii
-void set_elem_on_index(Lista* lista, void* elem, int index);
+void set_element_on_index(Lista* lista, void* elem, int index);
 
 //setter pentru lungimea listei
 void set_lungime(Lista* lista, int lugime);
