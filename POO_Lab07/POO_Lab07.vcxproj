@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{7128f6f5-7fe6-4d65-9028-d23a2cdd430c}</ProjectGuid>
-    <RootNamespace>POOLab05</RootNamespace>
+    <ProjectGuid>{be6bd809-83b4-4315-90a4-a9e6fa18f0df}</ProjectGuid>
+    <RootNamespace>POOLab07</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -72,6 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -103,10 +104,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,19 +132,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.c" />
-    <ClCompile Include="domain.c" />
-    <ClCompile Include="service.c" />
-    <ClCompile Include="repo.c" />
-    <ClCompile Include="tests.c" />
-    <ClCompile Include="ui.c" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="domain.h" />
-    <ClInclude Include="service.h" />
     <ClInclude Include="repo.h" />
+    <ClInclude Include="service.h" />
     <ClInclude Include="tests.h" />
     <ClInclude Include="ui.h" />
+    <ClInclude Include="VectorDinamic.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="domain.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="repo\repo.cpp" />
+    <ClCompile Include="service.cpp" />
+    <ClCompile Include="tests.cpp" />
+    <ClCompile Include="ui.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

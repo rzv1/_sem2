@@ -6,10 +6,10 @@
 #include <stdlib.h>
 
 #include "tests.h"
-#include "participant.h"
-#include "storage.h"
+#include "domain.h"
+#include "repo.h"
 #include "service.h"
-#include "user_interface.h"
+#include "ui.h"
 
 void test_get_id() {
 	Participant* participant_1 = creeaza_participant(1, "Samoila", "Alexandru", 90);
@@ -278,12 +278,7 @@ void test_get_participant() {
 
 	Participant* participant_gasit = get_participant(lista, 10);
 
-	assert(get_id(participant_gasit) == 0);
-	assert(strcmp(get_nume(participant_gasit), "") == 0);
-	assert(strcmp(get_prenume(participant_gasit), "") == 0);
-	assert(get_scor(participant_gasit) == 0);
-
-	distruge_participant(participant_gasit);
+	assert(participant_gasit == NULL);
 
 	int user_id = 1;
 	Participant* participant = creeaza_participant(user_id, "Samoila", "Alexandru", 80);
@@ -1181,6 +1176,36 @@ static void test_cauta_participant_dupa_id() {
 	distruge_lista(lista, distruge_elem_participant);
 }
 
+static void test_undo() {
+	Lista* lista = creeaza_lista();
+	int user_id = 1;
+	adauga(lista, &user_id, "Alex", "Samoila", 90);
+	adauga(lista, &user_id, "Alex", "Mihai", 80);
+	assert(get_lungime(lista) == 2);
+	undo_service(lista);
+	assert(get_lungime(lista) == 1);
+	undo_service(lista);
+	assert(get_lungime(lista) == 0);
+	undo_service(lista);
+	undo_service(lista);
+	pop_undo(lista);
+	pop_undo(lista);
+	pop_undo(lista);
+	pop_undo(lista);
+	pop_undo(lista);
+	pop_undo(lista);
+	free_undo_stack();
+	distruge_lista(lista, distruge_elem_participant);
+}
+
+static void test_distruge_elem_lista() {
+	Lista* lista = creeaza_lista();
+	int user_id = 1;
+	Participant* participant = creeaza_participant(user_id, "Samoila", "Alexandru", 80);
+	adauga_participant(lista, &user_id, participant);
+	distruge_elem_lista(lista);
+}
+
 void ruleaza_teste() {
 	//teste domain
 	test_get_id();
@@ -1225,6 +1250,7 @@ void ruleaza_teste() {
 	test_cmp_func_scor_crescator();
 	test_cmp_func_scor_descrescator();
 	test_sortare_participanti();
-	//testListeDeListe();
+	test_undo();
+	test_distruge_elem_lista();
 	printf("Toate testele au fost trecute cu succes!\n");
 }

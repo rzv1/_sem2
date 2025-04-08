@@ -5,9 +5,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "user_interface.h"
-#include "participant.h"
-#include "storage.h"
+#include "ui.h"
+#include "domain.h"
+#include "repo.h"
 #include "service.h"
 
 void clear_input_buffer(int* extra_chars) {
@@ -37,7 +37,8 @@ void meniu() {
 	printf("5. Sortare participanti\n");
 	printf("6. Afiseaza toti participantii\n");
 	printf("7. Undo\n");
-	printf("8. Inchidere aplicatie\n");
+	printf("8. Afisare stersi\n");
+	printf("9. Inchidere aplicatie\n");
 }
 
 void meniu_filtrare() {
@@ -83,7 +84,7 @@ void print_all_participants(Lista* lista) {
 	}
 }
 
-void user_interface_adaugare_participant(Lista* lista, Lista* undoList, int* user_id) {
+void user_interface_adaugare_participant(Lista* lista, int* user_id) {
 	/*
 	functie care controleaza interactiunea cu utilizatorul pentru functionalitatea de adaugare a unui participant in aplicatie
 
@@ -140,20 +141,19 @@ void user_interface_adaugare_participant(Lista* lista, Lista* undoList, int* use
 	// inlocuiesc '\n' cu '\0' (sfarsitul de sir)
 	nume[strlen(nume) - 1] = '\0';
 	prenume[strlen(prenume) - 1] = '\0';
-	Lista* copie = copiaza_lista(lista, copiaza_participant);
 	bool added = adauga(lista, user_id, nume, prenume, scor);
 
 	if (!added) {
 		printf("Date invalide!\n");
-		distruge_lista(copie, distruge_elem_lista);
 	}
 	else {
 		printf("Participantul a fost adaugat cu succes!\n");
-		adauga_element(undoList, copie);
 	}
+	free(nume);
+	free(prenume);
 }
 
-void user_interface_actualizare_participant(Lista* lista, Lista* undoList) {
+void user_interface_actualizare_participant(Lista* lista) {
 	/*
 	functie care controleaza interactiunea cu utilizatorul pentru functionalitatea de actualizare a datelor despre un participant
 	*/
@@ -174,7 +174,7 @@ void user_interface_actualizare_participant(Lista* lista, Lista* undoList) {
 
 	Participant* participant = cauta_participant_dupa_id(lista, id);
 
-	if (get_id(participant) == 0) {
+	if (participant == NULL) {
 		printf("Nu este inregistrat niciun participant cu id %d!\n", id);
 		return;
 	}
@@ -209,9 +209,8 @@ void user_interface_actualizare_participant(Lista* lista, Lista* undoList) {
 		}
 
 		nume[strlen(nume) - 1] = '\0';
-		adauga_element(undoList, copiaza_lista(lista, copiaza_participant));
 		actualizeaza_nume(lista, id, nume);
-
+		free(nume);
 		break;
 	}
 
@@ -230,9 +229,9 @@ void user_interface_actualizare_participant(Lista* lista, Lista* undoList) {
 		}
 
 		prenume[strlen(prenume) - 1] = '\0';
-		adauga_element(undoList, copiaza_lista(lista, copiaza_participant));
-		actualizeaza_prenume(lista, id, prenume);
 
+		actualizeaza_prenume(lista, id, prenume);
+		free(prenume);
 
 		break;
 	}
@@ -250,9 +249,8 @@ void user_interface_actualizare_participant(Lista* lista, Lista* undoList) {
 			printf("Scorul este invalid!\n");
 			return;
 		}
-		adauga_element(undoList, copiaza_lista(lista, copiaza_participant));
 		actualizeaza_scor(lista, id, scor);
-
+		
 		break;
 	}
 
@@ -265,7 +263,7 @@ void user_interface_actualizare_participant(Lista* lista, Lista* undoList) {
 
 }
 
-void user_interface_stergere_participant(Lista* lista, Lista* undoList, Lista* stersi) {
+void user_interface_stergere_participant(Lista* lista, Lista* stersi) {
 	/*
 	functie care controleaza interactiunea cu utilizatorul pentru functionalitatea de stergere a unui participant
 
@@ -291,12 +289,12 @@ void user_interface_stergere_participant(Lista* lista, Lista* undoList, Lista* s
 
 	Participant* participant = cauta_participant_dupa_id(lista, id);
 
-	if (get_id(participant) == 0) {
+	if (participant == NULL) {
 		printf("Nu este inregistrat niciun participant cu id %d!\n", id);
 		return;
 	}
-	adauga_element(stersi, copiaza_participant(participant));
-	adauga_element(undoList, copiaza_lista(lista, copiaza_participant));
+	Participant* copie_participant = copiaza_participant(participant);
+	adauga_element(stersi, copie_participant);
 	sterge(lista, id);
 	printf("Participantul cu id %d a fost sters cu succes!\n", id);
 }
@@ -341,7 +339,8 @@ void user_interface_filtrare_participanti(Lista* lista) {
 
 		Lista* lista_filtrata = filtrare_participanti_dupa_scor(lista, scor);
 		print_all_participants(lista_filtrata);
-		distruge_lista(lista_filtrata, distruge_elem_participant);
+		free(lista_filtrata->elements);
+		free(lista_filtrata);
 
 		break;
 	}
@@ -365,8 +364,10 @@ void user_interface_filtrare_participanti(Lista* lista) {
 			printf("Caracterul introdus este o litera invalida!\n");
 			return;
 		}
-
-		print_all_participants(filtrare_participanti_dupa_litera(lista, litera));
+		Lista* lista_filtrata = filtrare_participanti_dupa_litera(lista, litera);
+		print_all_participants(lista_filtrata);
+		free(lista_filtrata->elements);
+		free(lista_filtrata);
 
 		break;
 	}
@@ -424,10 +425,14 @@ void user_interface_sortare_participanti(Lista* lista) {
 		if (option == '1') {
 			Lista* participanti_sortati = sortare_participanti(lista, cmp_func_nume_crescator);
 			print_all_participants(participanti_sortati);
+			free(participanti_sortati->elements);
+			free(participanti_sortati);
 		}
 		else if (option == '2') {
 			Lista* participanti_sortati = sortare_participanti(lista, cmp_func_nume_descrescator);
 			print_all_participants(participanti_sortati);
+			free(participanti_sortati->elements);
+			free(participanti_sortati);
 		}
 		else {
 			printf("Optiunea introdusa este invalida!\n");
@@ -457,10 +462,14 @@ void user_interface_sortare_participanti(Lista* lista) {
 		if (option == '1') {
 			Lista* participanti_sortati = sortare_participanti(lista, cmp_func_scor_crescator);
 			print_all_participants(participanti_sortati);
+			free(participanti_sortati->elements);
+			free(participanti_sortati);
 		}
 		else if (option == '2') {
 			Lista* participanti_sortati = sortare_participanti(lista, cmp_func_scor_descrescator);
 			print_all_participants(participanti_sortati);
+			free(participanti_sortati->elements);
+			free(participanti_sortati);
 		}
 		else {
 			printf("Optiunea introdusa este invalida!\n");
@@ -480,21 +489,24 @@ void user_interface_sortare_participanti(Lista* lista) {
 
 }
 
-void undo(Lista* lista, Lista* undoList) {
+void ui_undo(Lista* lista) {
 	/*
 	functie care revine la starea anterioara a listei de participanti
 	*/
-	if (get_lungime(undoList) == 0) {
-		printf("Nu exista operatii de undo disponibile!\n");
-		return;
-	}
-	else {
-		print_all_participants(get_element_by_index(undoList, get_lungime(undoList) - 1));
-		distruge_lista(lista, distruge_elem_participant);
-		lista = copiaza_lista(get_element_by_index(undoList, get_lungime(undoList) - 1), copiaza_participant);
-		set_lungime(undoList, get_lungime(undoList) - 1);
+	bool gasit = undo_service(lista);
+	if (gasit) {
 		printf("Operatie de undo efectuata cu succes!\n");
 	}
+	else
+		printf("Nu mai exista operatii de undo!\n");
+}
+
+void ui_show_deleted(Lista* stersi) {
+	/*
+	functie care afiseaza participantii stersi
+	*/
+	printf("\nParticipanti stersi:\n");
+	print_all_participants(stersi);
 }
 
 void ruleaza() {
@@ -502,7 +514,6 @@ void ruleaza() {
 	functie care ruleaza intreaga aplicatie
 	*/
 	Lista* lista = creeaza_lista();
-	Lista* undoList = creeaza_lista();
 	Lista* stersi = creeaza_lista();
 	int user_id = 1;
 
@@ -524,17 +535,17 @@ void ruleaza() {
 		switch (option) {
 
 		case '1': {
-			user_interface_adaugare_participant(lista, undoList, &user_id);
+			user_interface_adaugare_participant(lista, &user_id);
 			break;
 		}
 
 		case '2': {
-			user_interface_actualizare_participant(lista, undoList);
+			user_interface_actualizare_participant(lista);
 			break;
 		}
 
 		case '3': {
-			user_interface_stergere_participant(lista, undoList, stersi);
+			user_interface_stergere_participant(lista, stersi);
 			break;
 		}
 
@@ -554,13 +565,18 @@ void ruleaza() {
 		}
 
 		case '7': {
-			undo(lista, undoList);
+			ui_undo(lista);
 			break;
 		}
 
 		case '8': {
+			ui_show_deleted(stersi);
+			break;
+		}
+
+		case '9': {
 			distruge_lista(lista, distruge_elem_participant);
-			distruge_lista(undoList, distruge_elem_lista);
+			free_undo_stack();
 			distruge_lista(stersi, distruge_elem_participant);
 			return;
 			break;

@@ -5,7 +5,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-#include "participant.h"
+#include "domain.h"
 
 int get_id(Participant* participant) {
 	/*

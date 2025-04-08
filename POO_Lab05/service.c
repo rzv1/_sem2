@@ -5,9 +5,51 @@
 #include <string.h>
 
 #include "service.h"
-#include "participant.h"
-#include "storage.h"
-#include "user_interface.h"
+#include "domain.h"
+#include "repo.h"
+#include "ui.h"
+
+#define UNDO_MAX 100
+static Lista* undoStack[UNDO_MAX];
+static int undoTop = -1;
+
+static void push_undo(Lista* lista) {
+	undoStack[++undoTop] = copiaza_lista(lista, copiaza_participant);
+}
+
+Lista* pop_undo() {
+	if (undoTop < 0) {
+		return NULL;
+	}
+	Lista* lista = undoStack[undoTop];
+	undoTop--;
+	return lista;
+}
+
+void free_undo_stack() {
+	while (undoTop >= 0) {
+		Lista* lista = undoStack[undoTop];
+		undoTop--;
+		distruge_lista(lista, distruge_elem_participant);
+	}
+}
+
+bool undo_service(Lista* lista) {
+	Lista* ultima_lista = pop_undo();
+	if (ultima_lista == NULL) {
+		return false;
+	}
+	goleste_lista(lista, distruge_elem_participant);
+	for (int i = 0; i < get_lungime(ultima_lista); i++) {
+		Participant* participant = (Participant*)get_element_by_index(ultima_lista, i);
+		Participant* copie = copiaza_participant(participant);
+		adauga_element(lista, copie);
+	}
+	set_lungime(lista, get_lungime(ultima_lista));
+
+	distruge_lista(ultima_lista, distruge_elem_participant);
+	return true;
+}
 
 bool adauga(Lista* lista, int* user_id, char* nume, char* prenume, int scor) {
 	/*
@@ -29,6 +71,7 @@ bool adauga(Lista* lista, int* user_id, char* nume, char* prenume, int scor) {
 	if (!valideaza_participant(nume, prenume, scor))
 		return false;
 
+	push_undo(lista);
 	Participant* participant = creeaza_participant(*user_id, nume, prenume, scor);
 	adauga_participant(lista, user_id, participant);
 
@@ -65,6 +108,7 @@ void actualizeaza_nume(Lista* lista, int id, char* nume) {
 				 id >= 1, id valid
 				 0 < strlen(nume) <= 64
 	*/
+	push_undo(lista);
 	actualizeaza_nume_participant(lista, id, nume);
 }
 
@@ -80,6 +124,7 @@ void actualizeaza_prenume(Lista* lista, int id, char* prenume) {
 				 id >= 1, id valid
 				 0 < strlen(prenume) <= 64
 	*/
+	push_undo(lista);
 	actualizeaza_prenume_participant(lista, id, prenume);
 }
 
@@ -95,6 +140,7 @@ void actualizeaza_scor(Lista* lista, int id, int scor) {
 				 id >= 1, id valid
 				 0 <= scor <= 100;
 	*/
+	push_undo(lista);
 	actualizeaza_scor_participant(lista, id, scor);
 }
 
@@ -108,8 +154,8 @@ void sterge(Lista* lista, int id) {
 	preconditii: lista - sa existe
 				 id >= 1, id valid
 	postconditii: lista' = lista - participant
-	*/
-
+	*/  
+	push_undo(lista);
 	sterge_participant(lista, id);
 }
 

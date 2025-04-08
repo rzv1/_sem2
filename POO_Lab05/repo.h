@@ -2,7 +2,7 @@
 
 #define STORAGE_H_
 
-#include "participant.h"
+#include "domain.h"
 
 typedef struct {
 	void** elements;
@@ -61,6 +61,8 @@ void sterge_participant(Lista* lista, int user_id);
 void distruge_elem_participant(Participant* participant);
 
 void distruge_elem_lista(Lista* lista);
+
+void goleste_lista(Lista* lista, void(*free_elem)(void*));
 
 Participant* copiaza_participant(Participant* participant);
 

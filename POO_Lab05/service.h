@@ -4,7 +4,7 @@
 
 #include <stdbool.h>
 
-#include "storage.h"
+#include "repo.h"
 
 
 // functie responsabila cu trimiterea unui participant spre adaugare in storage (trimiterea are loc doar daca are datele valide)
@@ -45,5 +45,11 @@ int cmp_func_scor_descrescator(Participant* a, Participant* b);
 
 // functie pentru sortarea participantilor dupa un criteriu dat ca parametru
 Lista* sortare_participanti(Lista* lista, int(*cmp_func)(Participant* a, Participant* b));
+
+//Lista* undo(Lista* lista, Lista* undoList);
+
+bool undo_service(Lista* lista);
+
+Lista* pop_undo();
 
 #endif SERVICE_H_

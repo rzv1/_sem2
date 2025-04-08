@@ -32,13 +32,13 @@ e) Permite sortarea participantilor dupa : nume sau dupa scor(crescator / descre
 #include <stdlib.h>
 #include <crtdbg.h>
 
-#include "user_interface.h"
+#include "ui.h"
 #include "tests.h"
 
 int main() {
 	ruleaza_teste();
 
-	ruleaza();
+	//ruleaza();
 
 	if (_CrtDumpMemoryLeaks() == 1)
 		printf("gresit");

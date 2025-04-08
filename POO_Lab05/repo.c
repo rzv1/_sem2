@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "storage.h"
-#include "participant.h"
+#include "repo.h"
+#include "domain.h"
 
 Lista* creeaza_lista() {
 	/*
@@ -69,7 +69,7 @@ Participant* get_participant(Lista* lista, int id) {
 		if (get_id(lista->elements[i]) == id)
 			return lista->elements[i];
 
-	return creeaza_participant(0, "", "", 0);
+	return NULL;
 }
 
 void* get_element_by_index(Lista* lista, int index) {
@@ -305,16 +305,15 @@ void distruge_lista(Lista* lista, void(*free_elem)(void*)) {
 	free(lista);
 }
 
-Lista* copiaza_lista(Lista* lista, void* (*copy_elem)(void*)) {
-	/*
-	functie care copiaza toate elementele unei liste intr-o alta lista
-	*/
-	Lista* lista_noua = creeaza_lista();
-	for (int i = 0; i < get_lungime(lista); i++) {
-		void* copie_element = copy_elem(lista->elements[i]);
-		adauga_element(lista_noua, copie_element);
+void goleste_lista(Lista* lista, void(*free_elem)(void*)) {
+	if (free_elem != NULL) {
+		for (int i = 0; i < lista->lungime; i++) {
+			if (lista->elements[i]) {
+				free_elem(lista->elements[i]);
+			}
+		}
 	}
-	return lista_noua;
+	lista->lungime = 0;
 }
 
 void distruge_elem_participant(Participant* participant) {
@@ -336,4 +335,16 @@ Participant* copiaza_participant(Participant* participant) {
 	functie care copiaza un participant
 	*/
 	return creeaza_participant(get_id(participant), get_nume(participant), get_prenume(participant), get_scor(participant));
+}
+
+Lista* copiaza_lista(Lista* lista, void* (*copy_elem)(void*)) {
+	/*
+	functie care copiaza toate elementele unei liste intr-o alta lista
+	*/
+	Lista* lista_noua = creeaza_lista();
+	for (int i = 0; i < get_lungime(lista); i++) {
+		void* copie_element = copy_elem(lista->elements[i]);
+		adauga_element(lista_noua, copie_element);
+	}
+	return lista_noua;
 }
