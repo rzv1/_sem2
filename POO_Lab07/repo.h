@@ -26,7 +26,6 @@ public:
 
 	void remove(int id);
 
-	//void update_by_parameter(Carte& book, void(Carte::*setter)(const string&), const string& parameter) const;
 	void update_title(int id, const string& title);
 	void update_author(int id, const string& author);
 	void update_genre(int id, const string& genre);

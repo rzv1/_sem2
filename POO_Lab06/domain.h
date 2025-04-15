@@ -3,6 +3,7 @@
 #include <iostream>
 using std::string;
 
+// Clasa ValidationException este folosita pentru a arunca exceptii in cazul in care datele introduse nu sunt valide
 class ValidationException {
 private:
 	string message;
@@ -15,7 +16,7 @@ public:
 		return message == ot;
 	}
 };
-
+// Clasa Carte reprezinta o carte cu titlu, autor, gen, an de publicare si id
 class Carte {
 private:
 	string title;
@@ -24,16 +25,18 @@ private:
 	int year;
 	int id;
 public:
+	//Constructor cu parametrii
 	Carte(const string& title, const string& author, const string& genre, int year) : title{ title }, author{ author }, genre{ genre }, year{ year }, id{ 0 } {
 		to_lower_genre();
 	}
-
+	//Copiator
 	Carte(const Carte& other) : title{ other.title }, author{ other.author }, genre{ other.genre }, year{ other.year }, id{ other.id } {
 		std::cout << "Carte " << other.get_title() << " copiata!\n";
 	}
-
+	//Constructor default
 	~Carte() = default;
 
+	// Getters si Setters pentru a accesa si modifica datele private ale cartii
 	string get_title() const {
 		return title;
 	}
@@ -66,10 +69,12 @@ public:
 		id = new_id;
 	}
 
+	// Functii de validare a datelor introduse
 	bool validate_author(const string& author) const;
 	bool validate_genre(const string& genre) const;
 	bool validate_book() const;
 	void to_lower_genre();
 
+	// Functie de printare a datelor
 	string to_string() const;
 };

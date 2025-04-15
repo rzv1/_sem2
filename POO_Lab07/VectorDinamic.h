@@ -1,8 +1,11 @@
 #pragma once
 #include <initializer_list>
 using std::initializer_list;
-template<typename T>
+template <typename T>
 
+class IteratorVectorDinamic;
+
+template <typename T>
 class VectorDinamic {
 private:
 	size_t size;
@@ -21,6 +24,7 @@ public:
 	VectorDinamic() : size(0), capacity(2) {
 		elements = new T[capacity];
 	}
+	//Constructor care initializiaza vectorul cu o lista de elemente
 	VectorDinamic(initializer_list<T> initList) {
 		size = initList.size();
 		capacity = size * 2;
@@ -30,13 +34,13 @@ public:
 			elements[i++] = element;
 		}
 	}
-    VectorDinamic(const VectorDinamic& other) : size(other.size), capacity(other.capacity) {
+	VectorDinamic(const VectorDinamic& other) : size(other.size), capacity(other.capacity) {
 		elements = new T[capacity];
 		if (other.size <= capacity)
-		for (size_t i = 0; i < other.size; i++) {
-			elements[i] = other.elements[i];
-		}
-    }
+			for (size_t i = 0; i < other.size; i++) {
+				elements[i] = other.elements[i];
+			}
+	}
 	VectorDinamic& operator=(const VectorDinamic& other) {
 		if (this != &other) {
 			delete[] elements;
@@ -58,14 +62,17 @@ public:
 		}
 		elements[size++] = element;
 	}
-	T& operator[](size_t index) {
+	T& operator[](size_t index) noexcept {
 		return elements[index];
 	}
-	T& operator[](size_t index) const {
+	T& operator[](size_t index) const noexcept {
 		return elements[index];
 	}
-	size_t get_size() const {
+	size_t get_size() const noexcept {
 		return size;
+	}
+	bool empty() const noexcept {
+		return size == 0;
 	}
 	void remove(size_t index) {
 		for (size_t i = index; i < size - 1; i++) {
@@ -73,19 +80,50 @@ public:
 		}
 		size--;
 	}
-	T* begin() {
-		return elements;
+	friend class IteratorVectorDinamic<T>;
+	IteratorVectorDinamic<T> begin() {
+		return IteratorVectorDinamic<T>(*this);
 	}
-	T* end() {
-		return elements + size;
+	IteratorVectorDinamic<T> end() {
+		return IteratorVectorDinamic<T>(*this, size);
 	}
-	const T* begin() const {
-		return elements;
+	IteratorVectorDinamic<T> begin() const{
+		return IteratorVectorDinamic<T>(*this);
 	}
-	const T* end() const {
-		return elements + size;
+	IteratorVectorDinamic<T> end() const{
+		return IteratorVectorDinamic<T>(*this, size);
 	}
-	bool empty() const {
-		return size == 0;
+};
+
+template <typename T>
+
+class IteratorVectorDinamic {
+private:
+	const VectorDinamic<T>& v;
+	size_t pos;
+public:
+	IteratorVectorDinamic(const VectorDinamic<T>& v) : v{ v }, pos{ 0 } {}
+	IteratorVectorDinamic(const VectorDinamic<T>& v, size_t pos) : v{ v }, pos{ pos } {}
+	bool valid() const {
+		return pos < v.get_size();
+	}
+	T& element() const {
+		return v[pos];
+	}
+	void urmator() {
+		pos++;
+	}
+	IteratorVectorDinamic<T>& operator++() {
+		urmator();
+		return *this;
+	}
+	T& operator*() const{
+		return element();
+	}
+	bool operator==(const IteratorVectorDinamic<T>& ot) const{
+		return pos == ot.pos;
+	}
+	bool operator!=(const IteratorVectorDinamic<T>& ot) const{
+		return !(*this == ot);
 	}
 };

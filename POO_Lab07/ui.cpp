@@ -10,6 +10,9 @@ using std::getline;
 using std::cin;
 using std::stringstream;
 
+/*
+Functia printeaza meniul principal
+*/
 void UI::print_menu() {
 	printf("\nMeniu carti\n");
 	printf("-------------------\n");
@@ -22,12 +25,18 @@ void UI::print_menu() {
 	printf("7. Exit\n");
 }
 
+/*
+Functia printeaza meniul optiunii de filtrare
+*/
 void UI::print_menu_filter_option() {
 	printf("\n");
 	printf("1. Titlu\n");
 	printf("2. Anul aparitiei\n");
 }
 
+/*
+Functia printeaza meniul optiunii de sortare
+*/
 void UI::print_menu_sort_option() {
 	printf("\n");
 	printf("1. Titlu\n");
@@ -35,6 +44,9 @@ void UI::print_menu_sort_option() {
 	printf("3. An + gen\n");
 }
 
+/*
+Functia printeaza meniul optiunii de update
+*/
 void UI::print_menu_update_option() {
 	printf("\n");
 	printf("1. Titlu\n");
@@ -43,8 +55,11 @@ void UI::print_menu_update_option() {
 	printf("4. An\n");
 }
 
+/*
+Functia printeaza toate cartile
+*/
 bool UI::print_all(const VectorDinamic<Carte>& carti) {
-	if (carti.empty()) {
+	if (carti.get_size() == 0) {
 		printf("Nu exista carti in lista!\n");
 		return false;
 	}
@@ -53,6 +68,9 @@ bool UI::print_all(const VectorDinamic<Carte>& carti) {
 	return true;
 }
 
+/*
+Functie utilitara care citeste un sir de caractere
+*/
 string UI::read_string(const string& prompt) {
 	string read;
 	do {
@@ -64,6 +82,9 @@ string UI::read_string(const string& prompt) {
 	return read;
 }
 
+/*
+Functie utilitara care citeste un intreg
+*/
 int UI::read_int(const string& prompt) {
 	string read;
 	int value;
@@ -79,6 +100,9 @@ int UI::read_int(const string& prompt) {
 	}
 }
 
+/*
+Functia de ui pentru adaugare
+*/
 void UI::add() {
 	string title = read_string("Titlu: ");
 	string author = read_string("Autor: ");
@@ -87,6 +111,9 @@ void UI::add() {
 	service.add(title, author, genre, year);
 }
 
+/*
+Functia de ui pentru stergere
+*/
 void UI::remove() {
 	bool exista = print_all(service.get_all());
 	if (!exista)
@@ -96,6 +123,9 @@ void UI::remove() {
 	printf("Cartea cu id-ul %d a fost stearsa!\n", id);
 }
 
+/*
+Functia de ui pentru actualizare
+*/
 void UI::update_title() {
 	bool exista = print_all(service.get_all());
 	if (!exista)
@@ -106,6 +136,9 @@ void UI::update_title() {
 	printf("Cartea cu id-ul %d a fost actualizata!\n", id);
 }
 
+/*
+Functia de ui pentru actualizare
+*/
 void UI::update_author() {
 	bool exista = print_all(service.get_all());
 	if (!exista)
@@ -116,6 +149,9 @@ void UI::update_author() {
 	printf("Cartea cu id-ul %d a fost actualizata!\n", id);
 }
 
+/*
+Functia de ui pentru actualizare
+*/
 void UI::update_genre() {
 	bool exista = print_all(service.get_all());
 	if (!exista)
@@ -126,6 +162,9 @@ void UI::update_genre() {
 	printf("Cartea cu id-ul %d a fost actualizata!\n", id);
 }
 
+/*
+Functia de ui pentru actualizare
+*/
 void UI::update_year() {
 	bool exista = print_all(service.get_all());
 	if (!exista)
@@ -136,36 +175,60 @@ void UI::update_year() {
 	printf("Cartea cu id-ul %d a fost actualizata!\n", id);
 }
 
+/*
+Functia de ui pentru filtrare dupa titlu
+*/
 void UI::filter_title() {
 	string title = read_string("Titlu: ");
 	print_all(service.filter_title(title));
 }
 
+/*
+Functia de ui pentru filtrare dupa an
+*/
 void UI::filter_year() {
 	int year = read_int("An: ");
 	print_all(service.filter_year(year));
 }
 
+/*
+Functia de ui pentru sortare dupa titlu
+*/
 void UI::sort_title() {
 	print_all(service.sort_title());
 }
 
+/*
+Functia de ui pentru sortare dupa autor
+*/
 void UI::sort_author() {
 	print_all(service.sort_author());
 }
 
+/*
+Functia de ui pentru sortare dupa an si gen
+*/
 void UI::sort_year_and_genre() {
 	print_all(service.sort_year_and_genre());
 }
 
+/*
+Functie de ui
+*/
 void UI::invalid() {
 	printf("Optiune invalida!");
 }
 
+/*
+Functie de ui
+*/
 void UI::improved_visuals() {
 	printf("\n");
 }
 
+/*
+Functie care porneste interfata
+*/
 void UI::run() {
 	while (true) {
 		try {

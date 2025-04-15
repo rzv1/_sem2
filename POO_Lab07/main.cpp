@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+#define _CRTDBG_MAP_ALLOC
 #include "tests.h"
 #include "domain.h"
 #include "repo.h"
@@ -5,13 +7,23 @@
 #include "ui.h"
 #include <iostream>
 
-int main() {
+using std::cout;
+
+void run() {
 	Tests tests;
 	tests.run();
-	printf("All tests passed!\n");
-	//Repo repo;
-	//Service service{ repo };
-	//UI ui{ service };
-	//ui.run();
+	cout << "Teste trecute!";
+	Repo repo;
+	Service service{ repo };
+	UI ui{ service };
+	ui.run();
+}
+
+int main() {
+	run();
+	if (_CrtDumpMemoryLeaks())
+		cout << "Leaks";
+	else
+		cout << "No memory leaks";
 	return 0;
 }

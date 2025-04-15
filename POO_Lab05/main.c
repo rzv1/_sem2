@@ -38,7 +38,7 @@ e) Permite sortarea participantilor dupa : nume sau dupa scor(crescator / descre
 int main() {
 	ruleaza_teste();
 
-	//ruleaza();
+	ruleaza();
 
 	if (_CrtDumpMemoryLeaks() == 1)
 		printf("gresit");
