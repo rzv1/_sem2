@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+N=8              # număr de „thread-uri”
+INIT=100         # valoarea iniţială pe slot
+MAX_STEAL=50     # furt maxim pe tură
+DIR=$(mktemp -d) # spaţiu de lucru izolat
+trap 'rm -rf "$DIR"' EXIT
+
+# --- iniţializare sloturi + mutexuri (fişiere) ------------------------------
+for ((i=0;i<N;i++)); do
+  printf '%d\n' "$INIT" >"$DIR/v$i"       # valoare
+done
+echo -1 >"$DIR/winner"                    # încă nu există câştigător
+
+# --- funcţia executată de fiecare subshell ----------------------------------
+worker() {
+  local id=$1
+  local victim steal myval vicval
+
+  while :; do
+    # stop global?
+    if [[ $(<"$DIR/winner") -ne -1 ]]; then break; fi
+
+    # alegere victimă diferită de mine
+    while :; do
+      victim=$(( RANDOM % N ))
+      (( victim != id )) && break
+    done
+
+    # alegere sumă
+    steal=$(( 1 + RANDOM % MAX_STEAL ))
+
+    # ordonare canonică pt. dead-lock-free
+    if (( id < victim )); then first=$id; second=$victim
+    else                      first=$victim; second=$id
+    fi
+
+    # blocăm cele două sloturi
+    exec {f1}>> "$DIR/v$first"
+    flock -x "$f1"
+    exec {f2}>> "$DIR/v$second"
+    flock -x "$f2"
+
+    # recitim status câştigător (cheap read, deja sub lock)
+    if [[ $(<"$DIR/winner") -ne -1 ]]; then
+      flock -u "$f2" "$f1"
+      exec {f2}>&-
+      exec {f1}>&-
+      break
+    fi
+
+    vicval=$(<"$DIR/v$victim")
+    myval=$(<"$DIR/v$id")
+
+    (( steal = steal < vicval ? steal : vicval ))
+
+    (( vicval -= steal ))
+    (( myval  += steal ))
+
+    printf '%d\n' "$vicval" >"$DIR/v$victim"
+    printf '%d\n' "$myval"  >"$DIR/v$id"
+
+    # verificăm dacă victima a ajuns la 0
+    if (( vicval == 0 )) && [[ $(<"$DIR/winner") -eq -1 ]]; then
+      printf '%d\n' "$victim" >"$DIR/winner"
+    fi
+
+    flock -u "$f2" "$f1"
+    # mică pauză opţională ca să lăsăm CPU altora
+    # sleep 0.001
+  done
+}
+
+# --- lansare subshell-uri ----------------------------------------------------
+for ((i=0;i<N;i++)); do
+  worker "$i" &
+done
+wait
+
+echo "Primul la 0: thread $(<"$DIR/winner")"
