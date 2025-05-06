@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{bf147f65-4560-419b-949a-24e80c20c02b}</ProjectGuid>
-    <RootNamespace>GTlab01</RootNamespace>
+    <ProjectGuid>{5d20410a-a55d-4b58-b1e2-cd98ae9e0366}</ProjectGuid>
+    <RootNamespace>Test1grafuri</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -128,10 +128,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="graph.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="exemple.txt" />
-    <Text Include="graph.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

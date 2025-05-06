@@ -15,12 +15,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="graph2.txt" />
+    <Text Include="labirint1.txt" />
+    <Text Include="labirint2.txt" />
+    <Text Include="labirint3.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="graph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="graph.txt" />
-    <Text Include="exemple.txt" />
   </ItemGroup>
 </Project>

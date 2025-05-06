@@ -19,8 +19,4 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="graph.txt" />
-    <Text Include="exemple.txt" />
-  </ItemGroup>
 </Project>

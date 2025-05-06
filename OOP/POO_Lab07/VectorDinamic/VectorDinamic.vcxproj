@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{bf147f65-4560-419b-949a-24e80c20c02b}</ProjectGuid>
-    <RootNamespace>GTlab01</RootNamespace>
+    <ProjectGuid>{bd3cc1a5-1c60-440c-aa2b-4cc0b6db459a}</ProjectGuid>
+    <RootNamespace>VectorDinamic</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,11 +127,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="graph.cpp" />
+    <ClInclude Include="Pet.h" />
+    <ClInclude Include="VectDinNewDelete.h" />
+    <ClInclude Include="VectDinSmartPointer.h" />
+    <ClInclude Include="VectorDinamic.h" />
+    <ClInclude Include="VectorDinamicTemplate.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="exemple.txt" />
-    <Text Include="graph.txt" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Pet.cpp" />
+    <ClCompile Include="VectDinNewDelete.cpp" />
+    <ClCompile Include="VectDinSmartPointer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
