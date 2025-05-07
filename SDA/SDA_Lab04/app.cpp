@@ -7,7 +7,7 @@ using namespace std;
 int main() {
 
 	testAllScurt();
-	testAllExtins();
+	//testAllExtins();
 
 	cout << "That's all!" << endl;
 

@@ -15,13 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Multime.cpp">
+    <ClCompile Include="app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IteratorMultime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="app.cpp">
+    <ClCompile Include="Multime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TestExtins.cpp">
@@ -32,13 +32,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LDI.h">
+    <ClInclude Include="IteratorMultime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LSI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Multime.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IteratorMultime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TestExtins.h">

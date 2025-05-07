@@ -25,10 +25,7 @@ bool Multime::sterge(TElem elem) {
 
 // Complexitate O(n) - in cel mai rau caz, trebuie sa parcurgem toata lista pentru a verifica daca elementul exista
 bool Multime::cauta(TElem elem) const {
-	if (elemente.cauta(elem)) {
-		return true;
-	}
-	return false;
+	return elemente.cauta((int)elem) != -1;
 }
 
 // Complexitate O(1) - returneaza dimensiunea multimii
