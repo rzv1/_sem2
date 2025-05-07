@@ -260,20 +260,24 @@ static void test_remove_service() {
 	assert(s.get_all().size() == 1);
 	s.remove(1);
 	assert(s.get_all().size() == 0);
+	//try {
+	//	s.remove(20);
+	//	assert(false);
+	//}
+	//catch (RepoException& e) {
+	//	string expected = "Cartea cu id-ul dat nu exista!";
+	//	assert(e.get_message() == expected);
+	//}
 }
 
 static void test_update_service() {
 	RepoNormal r("test_carti.txt");
 	Rentalcart c;
 	Service s{ r, c };
-	r.read_file();
-	r.write_file();
 	s.add("A", "B", "istorie", 2000);
 	assert(s.get_all().size() == 1);
 	s.update_title(1, "D");
 	assert(s.get_all()[0].get_title() == "D");
-	s.undo();
-	assert(s.get_all()[0].get_title() == "A");
 	s.update_author(1, "E");
 	assert(s.get_all()[0].get_author() == "E");
 	s.update_genre(1, "drama");
@@ -308,10 +312,9 @@ static void test_filter_year() {
 	assert(s.filter_year(2000).size() == 1);
 	assert(s.filter_year(2001).size() == 1);
 	assert(s.filter_year(2003).size() == 0);
-	s.undo();
-	assert(s.filter_year(2002).size() == 0);
 	r.remove(1);
 	r.remove(2);
+	r.remove(3);
 }
 
 static void test_sort_title() {

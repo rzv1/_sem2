@@ -64,4 +64,9 @@
     <Text Include="carti.txt" />
     <Text Include="test_carti.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="gui.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
 </Project>

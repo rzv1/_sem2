@@ -14,7 +14,7 @@ void run() {
 	Tests tests;
 	tests.run();
 	cout << "Teste trecute!";
-	Repo repo;
+	RepoNormal repo("carti.txt");
 	Rentalcart cart;
 	Service service{ repo, cart };
 	UI ui{ service };

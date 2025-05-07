@@ -61,7 +61,9 @@ private:
 	map<string, DTO> type_pairs;
 	vector<unique_ptr<ActiuneUndo>> undoActions;
 public:
-	Service(Repo& repo, Rentalcart& cart) : repo{ repo }, cart{ cart } {}
+	Service(Repo& repo, Rentalcart& cart) : repo{ repo }, cart{ cart } {
+		add_to_map();
+	}
 	Service(const Service&) = delete;
 	Service& operator=(const Service&) = delete;
 

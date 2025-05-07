@@ -9,6 +9,8 @@ void Service::add(const string& title, const string& author, const string& genre
 	c.validate_book();
 	repo.add(c);
 	undoActions.push_back(std::make_unique<UndoAdauga>(repo, c.get_id()));
+	clear_map();
+	add_to_map();
 }
 
 /*
@@ -19,6 +21,8 @@ void Service::remove(int id) {
 	Carte sters = repo.get_by_id(id);
 	repo.remove(id);
 	undoActions.push_back(std::make_unique<UndoSterge>(repo, sters));
+	clear_map();
+	add_to_map();
 }
 
 /*
@@ -45,6 +49,8 @@ throw: Cartea cu ID nu exista sau gen invalid
 */
 void Service::update_genre(int id, const string& genre) {
 	repo.update_genre(id, genre);
+	clear_map();
+	add_to_map();
 }
 
 /*
